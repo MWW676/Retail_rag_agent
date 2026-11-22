@@ -1,0 +1,2 @@
+Temperature:0, Success Unique Responses: 1, Input Token Usage Range: 280 - 280, Thought Token Usage Range: 764 - 764,Total Token Usage Range: 1113 - 1113
+Temperature:1.0, Success Unique Responses: 3, Input Token Usage Range: 280 - 280, Thought Token Usage Range: 1095 - 1271,Total Token Usage Range: 1458 - 1659

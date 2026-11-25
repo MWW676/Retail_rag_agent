@@ -2,13 +2,14 @@ import os
 from dotenv import load_dotenv
 from src.storage.vector_store import ChromaStore
 from src.models.embedding_client import GeminiEmbedder
+from src.retrieval.retriever import Retriever
 
-def search_demo(query: str, embedder: GeminiEmbedder, vector_store: ChromaStore) -> list[tuple[str, float]]:
-    embedded_query = embedder.embed_query(query)
-    resp = vector_store.search(embedded_query)
-    results = [(chunk.chunk_id, score) for chunk, score in resp]
+def search_demo(query: str, retriever: Retriever) -> None:
+    retrieved_results = retriever.retrieve(query)
+    results = [(chunk.chunk_id, score) for chunk, score in retrieved_results]
+    print(f"Question: {query}")
+    print(f"Top 3 results: {results}")
 
-    return results
 
 if __name__ == "__main__":
     question_list = [
@@ -23,8 +24,7 @@ if __name__ == "__main__":
     api_key = os.getenv("GEMINI_API_KEY")
     embedder = GeminiEmbedder(api_key)
     vector_store = ChromaStore()
+    retriever = Retriever(embedder, vector_store)
 
     for question in question_list:
-        results = search_demo(question, embedder, vector_store)
-        print(f"Question: {question}")
-        print(f"Top 3 results: {results}")
+        search_demo(question, retriever)

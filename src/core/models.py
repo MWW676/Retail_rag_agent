@@ -10,3 +10,8 @@ class Chunk(BaseModel):
     text: str
     source: str
     section: str
+
+class Answer(BaseModel):
+    answer: str
+    cited_chunk_ids: list[str]
+    refused: bool

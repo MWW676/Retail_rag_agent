@@ -1,0 +1,8 @@
+
+llm_model: "gemma-4-26b-a4b-it"
+embedding_model: "gemini-embedding-001"
+temperature: 0
+chunk_size: 500       # null = one section per chunk (today's behavior); e.g. 500 = split long sections
+top_k: 5
+prompt_version: "v3"
+policy_mode: "retrieved"  # retrieved | full  (full is implemented on day 7)

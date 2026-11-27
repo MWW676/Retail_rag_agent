@@ -5,5 +5,10 @@ Please answer the following query based on the provided policies:
 [QUERY END]
 
 [POLICIES START]
-{{ retrieved_chunks }}
+{% for c in chunks %}
+[chunk_id: {{ c.chunk_id }}]
+{{ c.text }}
+{% if not loop.last %}
+
+{% endif %}{% endfor %}
 [POLICIES END]

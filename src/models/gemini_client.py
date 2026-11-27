@@ -7,12 +7,6 @@ from google.genai.errors import APIError, ServerError
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential, before_sleep_log
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)
-logger.addHandler(console_handler)
-
 RETRYABLE_CODES = {429}
 
 def is_retryable(exc: BaseException) -> bool:
@@ -21,10 +15,10 @@ def is_retryable(exc: BaseException) -> bool:
     return isinstance(exc, APIError) and exc.code in RETRYABLE_CODES
 
 class GeminiClient:
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, llm_model: str):
         self.api_key = api_key
         self.client = genai.Client(api_key=api_key)
-        self.model = "gemma-4-26b-a4b-it"
+        self.model = llm_model
         self.RATE_LIMIT_PER_MINUTE = 30
         self.LAST_REQUEST_TIME = 0  # Initialize last request time
 

@@ -5,11 +5,6 @@ from google.genai.errors import APIError, ServerError
 from tenacity import retry, retry_if_exception, stop_after_attempt, wait_exponential, before_sleep_log
 
 logger = logging.getLogger(__name__)
-logger.setLevel(logging.INFO)
-
-console_handler = logging.StreamHandler()
-console_handler.setLevel(logging.INFO)
-logger.addHandler(console_handler)
 
 RETRYABLE_CODES = {429, 503}
 
@@ -19,10 +14,10 @@ def is_retryable(exc: BaseException) -> bool:
     return isinstance(exc, APIError) and exc.code in RETRYABLE_CODES
 
 class GeminiEmbedder:
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str, embedding_model: str):
         self.api_key = api_key
         self.client = genai.Client(api_key=self.api_key)
-        self.embed_model = "gemini-embedding-001"
+        self.embed_model = embedding_model
 
     @retry(
         retry=retry_if_exception(is_retryable),  # which exceptions trigger a retry
